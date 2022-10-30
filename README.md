@@ -92,8 +92,16 @@
 
     pip install -r requirements.txt
 
-    python main.py
+    python api_demo.py
     ```
+
+Для проверки можно дополнительно установить httpie и сделать запросы вида:
+
+```bash
+http POST http://127.0.0.1:8080/v1/auth/register phone=+79167003020 login=rubella19 password=1Qwerty! name=Анастасия birth=2000-07-28 tg=\@Rubella19 email=anastasia.a.krasnova@gmail.com
+
+http GET http://127.0.0.1:8080/v1/user?id=12345678
+```
 
 [:arrow_up: Содержание](#содержание)
 
