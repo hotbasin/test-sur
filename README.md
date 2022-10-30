@@ -92,8 +92,7 @@
 
     pip install -r requirements.txt
 
-    python game.py
-    python game_score.py
+    python main.py
     ```
 
 [:arrow_up: Содержание](#содержание)
