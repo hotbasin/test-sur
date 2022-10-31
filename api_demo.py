@@ -21,26 +21,28 @@ def server_root() -> str:
         output_ = f_.read()
     return output_
 
-
 @post('/v1/auth/register')
 def register_post():
     return api_.register_post(request.json)
-
-
-@post('/v2/auth/register')
-def tmp_register_post():
-    return api_.tmp_register_post(request.body)
-
 
 @post('/v1/auth/login')
 def login_post():
     return 'Login authenticated'
 
-
 @get('/v1/user')
 def user_get():
     uid_ = request.query.id
     return api_.user_get(uid_)
+
+
+#####=====----- TEMPORAL tests in browser -----=====#####
+@post('/v2/auth/register')
+def tmp_register_post():
+    return api_.tmp_register_post(request.body)
+
+@post('/v2/auth/login')
+def tmp_login_post():
+    return 'Login authenticated'
 
 
 #####=====----- MAIN -----=====#####

@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+import uuid
+
+
 def register_post(userdata_: dict) -> dict:
     ''' Первый метод API из ТЗ (Регистрация нового пользователя)
     Arguments:
