@@ -63,6 +63,10 @@
 
 ## Описание решения ##
 
+Для демонстрации работы API принято решение использовать простой web-сервер
+**Bottle** и СУБД **SQLite** вместо **Django** и **PostgreSQL**, чтобы уложиться
+в сроки.
+
 [:arrow_up: Содержание](#содержание)
 
 ----
@@ -93,12 +97,22 @@
     pip install -r requirements.txt
 
     python api_demo.py
+    # Выход по Ctrl+C
     ```
 
-Для проверки можно дополнительно установить httpie и сделать запросы вида:
+Для проверки можно использовать **`httpie`**. Если нет, можно дополнительно
+установить в текущем виртуальном окружении:
+
+    ```bash
+    pip install httpie
+    ```
+
+и сделать запросы вида:
 
 ```bash
 http POST http://127.0.0.1:8080/v1/auth/register phone=+79167003020 login=rubella19 password=1Qwerty! name=Анастасия birth=2000-07-28 tg=\@Rubella19 email=anastasia.a.krasnova@gmail.com
+
+http POST http://127.0.0.1:8080/v1/auth/login login=rubella19 password=1Qwerty!
 
 http GET http://127.0.0.1:8080/v1/user?id=12345678
 ```

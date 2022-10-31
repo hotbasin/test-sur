@@ -6,5 +6,32 @@
 </head>
 <body>
     <h1>Тестовая страница-заглушка</h1>
+    <h2>Тесты API</h2>
+    <p>1. /v2/auth/register</p>
+    <form method="post" name="register" action="http://127.0.0.1:8080/v2/auth/register">
+        <fieldset>
+            <ul>
+                <li><label>phone: <li><input name="phone" value="+79167003020" required></li></label></li>
+                <li><label>login: <li><input name="login" value="rubella19" required></li></label></li>
+                <li><label>password: <li><input name="password" value="1Qwerty!" required></li></label></li>
+                <li><label>name: <li><input name="name" value="Анастасия" required></li></label></li>
+                <li><label>birth: <li><input name="birth" value="2007-07-28" required></li></label></li>
+                <li><label>tg: <li><input name="tg" value="@Rubella19"></li></label></li>
+                <li><label>email: <li><input name="email" value="anastasia.a.krasnova@gmail.com"></li></label></li>
+            </ul>
+        </fieldset>
+        <input type="submit" value="Отправить POST">
+    </form>
+    <p>2. /v2/auth/login</p>
+    <form method="post" name="register" action="http://127.0.0.1:8080/v2/auth/login">
+        <fieldset>
+            <ul>
+                <li><label>login: <li><input name="login" value="rubella19" required></li></label></li>
+                <li><label>password: <li><input name="password" value="1Qwerty!" required></li></label></li>
+            </ul>
+        </fieldset>
+        <input type="submit" value="Отправить POST">
+    </form>
+    <p><a href="http://127.0.0.1:8080/v1/user?id=12345678">3. /v1/user</a></p>
 </body>
 </html>

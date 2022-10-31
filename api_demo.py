@@ -5,16 +5,31 @@ from bottle import HTTPError, get, post, request, run
 import api_module as api_
 
 
+#####=====----- VARIABLES -----=====#####
+ROOT_INDEX_FILE = 'ADDS/index.html'
+
+
 #####=====----- BOTTLE DEFINITIONS -----=====#####
 @get('/')
-def server_root():
-    return api_.server_root()
+def server_root() -> str:
+    ''' Аналог ServerRoot для проверки работоспособности Bottle
+    Returns:
+        [str] -- содержимое HTML-файла, заданного в глобальной
+            переменной ROOT_INDEX_FILE
+    '''
+    with open(ROOT_INDEX_FILE, 'r', encoding='utf-8') as f_:
+        output_ = f_.read()
+    return output_
 
 
 @post('/v1/auth/register')
 def register_post():
-    dict_ = request.body
     return api_.register_post(request.json)
+
+
+@post('/v2/auth/register')
+def tmp_register_post():
+    return api_.tmp_register_post(request.body)
 
 
 @post('/v1/auth/login')
@@ -24,9 +39,8 @@ def login_post():
 
 @get('/v1/user')
 def user_get():
-    user_id = request.query.id
-    str_ = f'Your query is {user_id}'
-    return str_
+    uid_ = request.query.id
+    return api_.user_get(uid_)
 
 
 #####=====----- MAIN -----=====#####
