@@ -5,11 +5,11 @@ from bottle import HTTPError, get, post, request, run
 import api_module as api_
 
 
-#####=====----- VARIABLES -----=====#####
+#####=====----- Variables -----=====#####
 ROOT_INDEX_FILE = 'ADDS/index.html'
 
 
-#####=====----- BOTTLE DEFINITIONS -----=====#####
+#####=====----- Bottle resources -----=====#####
 @get('/')
 def server_root() -> str:
     ''' Аналог ServerRoot для проверки работоспособности Bottle
@@ -35,7 +35,7 @@ def user_get():
     return api_.user_get(uid_)
 
 
-#####=====----- TEMPORAL tests in browser -----=====#####
+#####=====----- ВРЕМЕННО для тестов в броузере -----=====#####
 @post('/v2/auth/register')
 def tmp_register_post():
     return api_.tmp_register_post(request.body)
