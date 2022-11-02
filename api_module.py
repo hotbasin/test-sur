@@ -5,8 +5,8 @@ import uuid
 
 import sqlalchemy as sa
 from sqlalchemy.orm import declarative_base, Session
-# from sqlalchemy.ext.declarative import declarative_base
 
+import api_validations as v_
 
 #####=====----- Variables -----=====#####
 DB_PATH = 'sqlite:///sqlite/db.sqlite'
@@ -40,31 +40,35 @@ def register_post(userdata_: dict) -> dict:
             и с необязательными ключами 'email', 'tg'
     Returns:
         [dict] -- Словарь/json с ключом идентификатора пользователя
-            'user_id', или с ключами 'code', 'text' в случае ошибки
+            'uid', или с ключами 'code', 'text' в случае ошибки
     '''
-    uid_ = str(uuid.uuid4())
-    name_ = userdata_['name']
-    birth_ = userdata_['birth']
-    login_ = userdata_['login']
-    password_ = userdata_['password']
-    phone_ = userdata_['phone']
-    email_ = userdata_.get('email')
-    tg_ = userdata_.get('tg')
-    new_user = User(
-        uid=uid_,
-        name=name_,
-        birth=birth_,
-        login=login_,
-        password=password_,
-        phone=phone_,
-        email=email_,
-        tg=tg_
-    )
-    engine = sa.create_engine(DB_PATH)
-    with Session(engine) as session:
-        session.add(new_user)
-        session.commit()
-    output_ = {'uid': uid_}
+    error_code = v_.validate_all(userdata_)
+    if error_code == 0:
+        uid_ = str(uuid.uuid4())
+        name_ = userdata_['name']
+        birth_ = userdata_['birth']
+        login_ = userdata_['login']
+        password_ = userdata_['password']
+        phone_ = userdata_['phone']
+        email_ = userdata_.get('email')
+        tg_ = userdata_.get('tg')
+        new_user = User(
+            uid=uid_,
+            name=name_,
+            birth=birth_,
+            login=login_,
+            password=password_,
+            phone=phone_,
+            email=email_,
+            tg=tg_
+        )
+        engine = sa.create_engine(DB_PATH)
+        with Session(engine) as session:
+            session.add(new_user)
+            session.commit()
+        output_ = {'uid': uid_}
+    else:
+        pass
     return json.dumps(output_, indent=4)
 
 def tmp_register_post(userdata_):
@@ -84,6 +88,5 @@ def user_get(uid_: str) -> dict:
     '''
     output_ = f'Your query is {uid_}'
     return output_
-
 
 #####=====----- THE END -----=====#########################################
