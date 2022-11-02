@@ -73,15 +73,22 @@
 
 ## Результат ##
 
-[**`api_module.py`**](api_module.py)&nbsp;&mdash; модуль, содержащий все три
-метода API.
+[**`api_module.py`**](api_module.py)&nbsp;&mdash; основной модуль, содержащий
+все три метода API.
 
-[**`api_validations.py`**](api_validations.py)&nbsp;&mdash;
+[**`api_validations.py`**](api_validations.py)&nbsp;&mdash; дополнительный
+модуль для проверки входящих данных. Содержит функцирнальные заготовки
+валидации входных данных, которые можно &laquo;накрутить&raquo; при появлении
+дополнительных требований.
 
-[**`api_demo.py`**](api_demo.py)&nbsp;&mdash; модуль демонстрации API.
+[**`api_demo.py`**](api_demo.py)&nbsp;&mdash; модуль для демонстрации API.
 
 [**`sqlite/db.sql`**](sqlite/db.sql)&nbsp;&mdash; SQL-скрипт для создания файла
 базы данных **`sqlite/db.sqlite`**.
+
+База данных содержит две таблицы. В таблице **Users** хранятся все
+пользовательские данные. В таблице **Errors** создан минимальный набор вариантов
+ошибок, который можно расширить под будущие требования.
 
 [:arrow_up: Содержание](#содержание)
 
@@ -138,7 +145,7 @@
 
     http POST http://127.0.0.1:8080/v1/auth/login login=rubella19 password=1Qwerty!
 
-    http GET http://127.0.0.1:8080/v1/user?id=12345678
+    http GET http://127.0.0.1:8080/v1/user?id=00000000-2222-2222-2222-000000000000
     ```
 
 [:arrow_up: Содержание](#содержание)

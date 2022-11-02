@@ -45,11 +45,11 @@ def register_post(userdata_: dict) -> dict:
     error_code = v_.validate_all(userdata_)
     if error_code == 0:
         uid_ = str(uuid.uuid4())
-        name_ = userdata_['name']
-        birth_ = userdata_['birth']
-        login_ = userdata_['login']
-        password_ = userdata_['password']
-        phone_ = userdata_['phone']
+        name_ = userdata_.get('name')
+        birth_ = userdata_.get('birth')
+        login_ = userdata_.get('login')
+        password_ = userdata_.get('password')
+        phone_ = userdata_.get('phone')
         email_ = userdata_.get('email')
         tg_ = userdata_.get('tg')
         new_user = User(
@@ -66,7 +66,7 @@ def register_post(userdata_: dict) -> dict:
         with Session(engine) as session:
             session.add(new_user)
             session.commit()
-        output_ = {'uid': uid_}
+        output_ = dict(uid=uid_)
     else:
         pass
     return json.dumps(output_, indent=4)
