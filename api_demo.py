@@ -23,26 +23,22 @@ def server_root() -> str:
 
 @post('/v1/auth/register')
 def register_post():
+    ''' Первый метод API из ТЗ
+    '''
     return api_.register_post(request.json)
 
 @post('/v1/auth/login')
 def login_post():
-    return 'Login authenticated'
+    ''' Второй метод API из ТЗ
+    '''
+    return api_.login_post(request.json)
 
 @get('/v1/user')
 def user_get():
+    ''' Третий метод API из ТЗ
+    '''
     uid_ = request.query.id
     return api_.user_get(uid_)
-
-
-#####=====----- ВРЕМЕННО для тестов в броузере -----=====#####
-@post('/v2/auth/register')
-def tmp_register_post():
-    return api_.tmp_register_post(request.body)
-
-@post('/v2/auth/login')
-def tmp_login_post():
-    return 'Login authenticated'
 
 
 #####=====----- MAIN -----=====#####

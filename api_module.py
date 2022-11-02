@@ -26,10 +26,12 @@ class User(Base):
     email = sa.Column(sa.String(1024))
     tg = sa.Column(sa.String(1024))
 
+
 class Error(Base):
     __tablename__ = 'Errors'
     code = sa.Column(sa.Integer, primary_key=True)
     text = sa.Column(sa.Text(1024))
+
 
 #####=====----- API methods -----=====#####
 def register_post(userdata_: dict) -> dict:
@@ -42,8 +44,9 @@ def register_post(userdata_: dict) -> dict:
         [dict] -- Словарь/json с ключом идентификатора пользователя
             'uid', или с ключами 'code', 'text' в случае ошибки
     '''
-    error_code = v_.validate_all(userdata_)
-    if error_code == 0:
+    err_code = v_.validate_all(userdata_)
+    engine = sa.create_engine(DB_PATH)
+    if err_code == 0:
         uid_ = str(uuid.uuid4())
         name_ = userdata_.get('name')
         birth_ = userdata_.get('birth')
@@ -52,41 +55,76 @@ def register_post(userdata_: dict) -> dict:
         phone_ = userdata_.get('phone')
         email_ = userdata_.get('email')
         tg_ = userdata_.get('tg')
-        new_user = User(
-            uid=uid_,
-            name=name_,
-            birth=birth_,
-            login=login_,
-            password=password_,
-            phone=phone_,
-            email=email_,
-            tg=tg_
-        )
-        engine = sa.create_engine(DB_PATH)
-        with Session(engine) as session:
-            session.add(new_user)
-            session.commit()
+
+        new_user = User(uid=uid_,
+                        name=name_,
+                        birth=birth_,
+                        login=login_,
+                        password=password_,
+                        phone=phone_,
+                        email=email_,
+                        tg=tg_
+                       )
+        with Session(engine) as add_session:
+            add_session.add(new_user)
+            add_session.commit()
         output_ = dict(uid=uid_)
     else:
-        pass
+        with Session(engine) as err_session:
+            error_ = err_session.query(Error).filter(Error.code == err_code)[0]
+            output_ = dict(code=error_.code, text=error_.text)
     return json.dumps(output_, indent=4)
 
-def tmp_register_post(userdata_):
-    ''' Тестовый метод API для контроля из HTML
+
+def login_post(credentials_: dict) -> dict:
+    ''' Второй метод API из ТЗ (Авторизация)
+    Arguments:
+        credentials_ [dict] -- Словарь/json с ключами 'login',
+            'password'
+    Returns:
+        [dict] -- Словарь/json с ключом идентификатора пользователя
+            'uid', или с ключами 'code', 'text' в случае ошибки
     '''
-    output_ = userdata_
-    return output_
+    login_ = credentials_.get('login')
+    password_ = credentials_.get('password')
+    engine = sa.create_engine(DB_PATH)
+    with Session(engine) as auth_session:
+        try:
+            user_ = auth_session.query(User).filter(User.login == login_)[0]
+            if user_.password == password_:
+                output_ = dict(uid=user_.uid)
+            else:
+                error_ = auth_session.query(Error).filter(Error.code == 800)[0]
+                output_ = dict(code=error_.code, text=error_.text)
+        except:
+            error_ = auth_session.query(Error).filter(Error.code == 800)[0]
+            output_ = dict(code=error_.code, text=error_.text)
+    return json.dumps(output_, indent=4)
+
 
 def user_get(uid_: str) -> dict:
-    ''' Третий метод API из ТЗ
+    ''' Третий метод API из ТЗ (Ответ на запрос id)
     Arguments:
         uid_ [str] -- UID пользователя
     Returns:
-        output_ [dict] -- Словарь/json со всеми ключами пользователя
-            кроме 'password' или с ключами 'code', 'text'
+        [dict] -- Словарь/json со всеми ключами пользователя кроме
+            'password' или с ключами 'code', 'text'
             в случае ошибки
     '''
-    output_ = f'Your query is {uid_}'
-    return output_
+    engine = sa.create_engine(DB_PATH)
+    with Session(engine) as q_session:
+        try:
+            user_ = q_session.query(User).filter(User.uid == uid_)[0]
+            output_ = dict(name=user_.name,
+                           birth=user_.birth,
+                           login=user_.login,
+                           phone=user_.phone,
+                           email=user_.email,
+                           tg=user_.tg
+                          )
+        except:
+            error_ = q_session.query(Error).filter(Error.code == 900)[0]
+            output_ = dict(code=error_.code, text=error_.text)
+    return json.dumps(output_, indent=4)
 
 #####=====----- THE END -----=====#########################################

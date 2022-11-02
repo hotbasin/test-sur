@@ -9,20 +9,21 @@ def is_valid_name(name_: str) -> int:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if 0 < len(name_) <= 1024:
+    if name_ is not None and 0 < len(name_) <= 1024:
         return 0
     else:
         return 100
 
 def is_valid_birth(birth_: str) -> int:
     ''' Проверка даты рождения
+        Проверяется только наличие и длина строки
     Arguments:
         birth_ [str] -- Поле 'birth'
     Returns:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if len(birth_) == 10:
+    if birth_ is not None and len(birth_) == 10:
         # TO DO: проверка на совершеннолетие
         # return 210 при нарушении
         pass
@@ -39,7 +40,7 @@ def is_valid_login(login_: str) -> int:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if 0 < len(login_) <= 1024:
+    if login_ is not None and 0 < len(login_) <= 1024:
         return 0
     else:
         return 300
@@ -53,7 +54,7 @@ def is_valid_password(password_: str) -> int:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if 0 < len(password_) <= 1024:
+    if password_ is not None and 0 < len(password_) <= 1024:
         return 0
     else:
         return 400
@@ -67,7 +68,7 @@ def is_valid_phone(phone_: str) -> int:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if len(phone_) == 12:
+    if phone_ is not None and len(phone_) == 12:
         return 0
     else:
         return 500
@@ -81,7 +82,7 @@ def is_valid_email(email_: str) -> int:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if email_ is None or len(email_) <= 1024:
+    if email_ is None or 0 < len(email_) <= 1024:
         return 0
     else:
         return 600
@@ -95,7 +96,7 @@ def is_valid_tg(tg_: str) -> int:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if tg_ is None or len(tg_) <= 1024:
+    if tg_ is None or 0 < len(tg_) <= 1024:
         return 0
     else:
         return 700

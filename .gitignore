@@ -5,3 +5,4 @@ VENV/
 test/
 sqlite/sqlite3.*
 sqlite/db.sqlite
+ttt.py
