@@ -9,8 +9,7 @@ from sqlalchemy.orm import declarative_base, Session
 import api_validations as v_
 
 #####=====----- Variables -----=====#####
-DB_PATH = 'sqlite:///sqlite/db.sqlite'
-# Base = sa.ext.declarative.declarative_base()
+DB_PATH = 'sqlite:///sqlite/db.sqlite3'
 Base = declarative_base()
 
 
@@ -108,8 +107,7 @@ def user_get(uid_: str) -> dict:
         uid_ [str] -- UID пользователя
     Returns:
         [dict] -- Словарь/json со всеми ключами пользователя кроме
-            'password' или с ключами 'code', 'text'
-            в случае ошибки
+            'password' или с ключами 'code', 'text' в случае ошибки
     '''
     engine = sa.create_engine(DB_PATH)
     with Session(engine) as q_session:

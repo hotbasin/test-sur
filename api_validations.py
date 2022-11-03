@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 
+from time import strftime
+
+
 def is_valid_name(name_: str) -> int:
     ''' Проверка имени пользователя.
-        Проверяется только наличие и длина строки
+        Проверяется только наличие и длина строки.
     Arguments:
         name_ [str] -- Поле 'name'
     Returns:
@@ -14,9 +17,11 @@ def is_valid_name(name_: str) -> int:
     else:
         return 100
 
+
 def is_valid_birth(birth_: str) -> int:
-    ''' Проверка даты рождения
-        Проверяется только наличие и длина строки
+    ''' Проверка даты рождения.
+        Проверяется наличие и длина строки, а также совершеннолетие
+        (16 полных лет и более на текущий момент).
     Arguments:
         birth_ [str] -- Поле 'birth'
     Returns:
@@ -24,16 +29,19 @@ def is_valid_birth(birth_: str) -> int:
             или код ошибки по таблице Errors
     '''
     if birth_ is not None and len(birth_) == 10:
-        # TO DO: проверка на совершеннолетие
-        # return 210 при нарушении
-        pass
-        return 0
+        birth_date = int(birth_.replace('-', ''))
+        current_date = int(strftime('%Y%m%d'))
+        if birth_date + 160000 > current_date:
+            return 210
+        else:
+            return 0
     else:
         return 200
 
+
 def is_valid_login(login_: str) -> int:
-    ''' Проверка логина пользователя
-        Проверяется только наличие и длина строки
+    ''' Проверка логина пользователя.
+        Проверяется только наличие и длина строки.
     Arguments:
         login_ [str] -- Поле 'login'
     Returns:
@@ -45,9 +53,10 @@ def is_valid_login(login_: str) -> int:
     else:
         return 300
 
+
 def is_valid_password(password_: str) -> int:
-    ''' Проверка пароля пользователя
-        Проверяется только наличие и длина строки
+    ''' Проверка пароля пользователя.
+        Проверяется только наличие и длина строки.
     Arguments:
         password_ [str] -- Поле 'password'
     Returns:
@@ -59,9 +68,10 @@ def is_valid_password(password_: str) -> int:
     else:
         return 400
 
+
 def is_valid_phone(phone_: str) -> int:
-    ''' Проверка номера телефона пользователя
-        Проверяется только наличие и длина строки
+    ''' Проверка номера телефона пользователя.
+        Проверяется только наличие и длина строки.
     Arguments:
         phone_ [str] -- Поле 'phone'
     Returns:
@@ -73,32 +83,54 @@ def is_valid_phone(phone_: str) -> int:
     else:
         return 500
 
+
 def is_valid_email(email_: str) -> int:
-    ''' Проверка необязательного Email-адреса пользователя
-        Может быть 'None', но если есть, проверяется только длина строки
+    ''' Проверка необязательного Email-адреса пользователя.
+        Может быть 'None', но если есть, проверяется длина строки и
+        наличие хотя бы одной точки после '@' (почтовый домен второго и
+        более уровня).
     Arguments:
         email_ [str] -- Поле 'email'
     Returns:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if email_ is None or 0 < len(email_) <= 1024:
+    if email_ is None:
         return 0
-    else:
+    try:
+        if 0 < len(email_) <= 1024:
+            if '@' in email_ and '.' in email_.split('@')[1]:
+                print('\nRun IFIFIFIF-2222\n')
+                return 0
+            else:
+                return 600
+        else:
+            return 600
+    except:
         return 600
 
+
 def is_valid_tg(tg_: str) -> int:
-    ''' Проверка необязательного Telegram-логина пользователя
+    ''' Проверка необязательного Telegram-логина пользователя.
         Может быть 'None', но если есть, проверяется только длина строки
+        и наличие символа '@' в начале.
     Arguments:
         email_ [str] -- Поле 'email'
     Returns:
         [int] -- '0' при отсутствии ошибок,
             или код ошибки по таблице Errors
     '''
-    if tg_ is None or 0 < len(tg_) <= 1024:
+    if tg_ is None:
         return 0
-    else:
+    try:
+        if 0 < len(tg_) <= 1024:
+            if tg_[0] == '@':
+                return 0
+            else:
+                return 700
+        else:
+            return 700
+    except:
         return 700
 
 
