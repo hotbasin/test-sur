@@ -8,12 +8,13 @@ from sqlalchemy.orm import declarative_base, Session
 
 import api_validations as v_
 
-#####=====----- Variables -----=====#####
+
+''' =====----- Global variables -----===== '''
 DB_PATH = 'sqlite:///sqlite/db.sqlite3'
 Base = declarative_base()
 
 
-#####=====----- Classes -----=====#####
+'''=====----- Classes -----===== '''
 class User(Base):
     __tablename__ = 'Users'
     uid = sa.Column(sa.String(36), primary_key=True)
@@ -32,7 +33,7 @@ class Error(Base):
     text = sa.Column(sa.Text(1024))
 
 
-#####=====----- API methods -----=====#####
+''' =====----- API methods -----===== '''
 def register_post(userdata_: dict) -> dict:
     ''' Первый метод API из ТЗ (Регистрация нового пользователя)
     Arguments:
@@ -72,7 +73,7 @@ def register_post(userdata_: dict) -> dict:
         with Session(engine) as err_session:
             error_ = err_session.query(Error).filter(Error.code == err_code)[0]
             output_ = dict(code=error_.code, text=error_.text)
-    return json.dumps(output_, indent=4)
+    return json.dumps(output_, ensure_ascii=False, indent=4)
 
 
 def login_post(credentials_: dict) -> dict:
@@ -98,7 +99,7 @@ def login_post(credentials_: dict) -> dict:
         except:
             error_ = auth_session.query(Error).filter(Error.code == 800)[0]
             output_ = dict(code=error_.code, text=error_.text)
-    return json.dumps(output_, indent=4)
+    return json.dumps(output_, ensure_ascii=False, indent=4)
 
 
 def user_get(uid_: str) -> dict:
@@ -123,6 +124,6 @@ def user_get(uid_: str) -> dict:
         except:
             error_ = q_session.query(Error).filter(Error.code == 900)[0]
             output_ = dict(code=error_.code, text=error_.text)
-    return json.dumps(output_, indent=4)
+    return json.dumps(output_, ensure_ascii=False, indent=4)
 
 #####=====----- THE END -----=====#########################################

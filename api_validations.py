@@ -100,7 +100,6 @@ def is_valid_email(email_: str) -> int:
     try:
         if 0 < len(email_) <= 1024:
             if '@' in email_ and '.' in email_.split('@')[1]:
-                print('\nRun IFIFIFIF-2222\n')
                 return 0
             else:
                 return 600
@@ -144,15 +143,14 @@ def validate_all(userdata_: dict) -> int:
         [int] -- '0' при отсутствии ошибок,
             или код первой обнаруженной ошибки по таблице Errors
     '''
-    code_list = [
-        is_valid_name(userdata_.get('name')),
-        is_valid_birth(userdata_.get('birth')),
-        is_valid_login(userdata_.get('login')),
-        is_valid_password(userdata_.get('password')),
-        is_valid_phone(userdata_.get('phone')),
-        is_valid_email(userdata_.get('email')),
-        is_valid_tg(userdata_.get('tg')),
-    ]
+    code_list = [is_valid_name(userdata_.get('name')),
+                 is_valid_birth(userdata_.get('birth')),
+                 is_valid_login(userdata_.get('login')),
+                 is_valid_password(userdata_.get('password')),
+                 is_valid_phone(userdata_.get('phone')),
+                 is_valid_email(userdata_.get('email')),
+                 is_valid_tg(userdata_.get('tg')),
+                ]
     for code_ in code_list:
         if code_ != 0:
             return code_

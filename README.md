@@ -137,7 +137,7 @@ API на порту 8080 в виртуальном окружении.
 
     # для ОС Linux:
     source VENV/bin/activate
-    # или для ОС Windows:
+    # для ОС Windows:
     VENV\Scripts\activate
 
     pip install -r requirements.txt
@@ -147,8 +147,8 @@ API на порту 8080 в виртуальном окружении.
 
     # Выход из виртуального окружения
     # для ОС Linux:
-    VENV/Scripts/deactivate
-    # или для ОС Windows:
+    deactivate
+    # для ОС Windows:
     VENV\Scripts\deactivate.bat
     ```
 
@@ -162,13 +162,13 @@ API на порту 8080 в виртуальном окружении.
     и сделать запросы для проверки первого метода:
 
     ```bash
-    http POST http://127.0.0.1:8080/v1/auth/register phone=+79167003020 login=rubella19 password=1Qwerty! name=Анастасия birth=2000-07-28 tg=\@Rubella19 email=anastasia.a.krasnova@gmail.com
+    http POST http://127.0.0.1:8080/v1/auth/register phone="+79167003020" login="rubella19" password="1Qwerty!" name="Анастасия" birth="2000-07-28" tg="\@Rubella19" email="anastasia.a.krasnova@gmail.com"
     ```
 
     для проверки второго метода:
 
     ```bash
-    http POST http://127.0.0.1:8080/v1/auth/login login=rubella19 password=1Qwerty!
+    http POST http://127.0.0.1:8080/v1/auth/login login="rubella19" password="1Qwerty!"
     ```
 
     для проверки третьего метода:

@@ -5,11 +5,11 @@ from bottle import HTTPError, get, post, request, run
 import api_module as api_
 
 
-#####=====----- Variables -----=====#####
+''' =====----- Global variables -----===== '''
 ROOT_INDEX_FILE = 'ADDS/index.html'
 
 
-#####=====----- Bottle resources -----=====#####
+''' =====----- Bottle resources -----===== '''
 @get('/')
 def server_root() -> str:
     ''' Аналог ServerRoot для проверки работоспособности Bottle
@@ -18,8 +18,7 @@ def server_root() -> str:
             переменной ROOT_INDEX_FILE
     '''
     with open(ROOT_INDEX_FILE, 'r', encoding='utf-8') as f_:
-        output_ = f_.read()
-    return output_
+        return f_.read()
 
 @post('/v1/auth/register')
 def register_post():
@@ -41,7 +40,7 @@ def user_get():
     return api_.user_get(uid_)
 
 
-#####=====----- MAIN -----=====#####
+''' =====----- MAIN -----===== '''
 if __name__ == '__main__':
     run(host='localhost', port=8080, debug=True)
 
