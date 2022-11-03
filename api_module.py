@@ -14,7 +14,7 @@ DB_PATH = 'sqlite:///sqlite/db.sqlite3'
 Base = declarative_base()
 
 
-'''=====----- Classes -----===== '''
+''' =====----- Classes -----===== '''
 class User(Base):
     __tablename__ = 'Users'
     uid = sa.Column(sa.String(36), primary_key=True)
