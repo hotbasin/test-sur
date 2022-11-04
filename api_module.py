@@ -12,6 +12,7 @@ import api_validations as v_
 ''' =====----- Global variables -----===== '''
 DB_PATH = 'sqlite:///sqlite/db.sqlite3'
 Base = declarative_base()
+ENGINE = sa.create_engine(DB_PATH)
 
 
 ''' =====----- Classes -----===== '''
@@ -45,7 +46,6 @@ def register_post(userdata_: dict) -> dict:
             или с ключами 'code' и 'text' в случае ошибки
     '''
     err_code = v_.validate_all(userdata_)
-    engine = sa.create_engine(DB_PATH)
     if err_code == 0:
         new_user = User(uid=str(uuid.uuid4()),
                         name=userdata_.get('name'),
@@ -56,12 +56,12 @@ def register_post(userdata_: dict) -> dict:
                         email=userdata_.get('email'),
                         tg=userdata_.get('tg')
                        )
-        with Session(engine) as add_session:
+        with Session(ENGINE) as add_session:
             output_ = dict(uid=new_user.uid)
             add_session.add(new_user)
             add_session.commit()
     else:
-        with Session(engine) as err_session:
+        with Session(ENGINE) as err_session:
             error_ = err_session.query(Error).filter(Error.code == err_code).first()
             output_ = dict(code=error_.code, text=error_.text)
     return json.dumps(output_, ensure_ascii=False, indent=4)
@@ -78,8 +78,7 @@ def login_post(credentials_: dict) -> dict:
     '''
     login_ = credentials_.get('login')
     password_ = credentials_.get('password')
-    engine = sa.create_engine(DB_PATH)
-    with Session(engine) as auth_session:
+    with Session(ENGINE) as auth_session:
         try:
             user_ = auth_session.query(User).filter(User.login == login_).first()
             if user_.password == password_:
@@ -102,8 +101,7 @@ def user_get(uid_: str) -> dict:
             'password' и 'uid',
             или с ключами 'code' и 'text' в случае ошибки
     '''
-    engine = sa.create_engine(DB_PATH)
-    with Session(engine) as q_session:
+    with Session(ENGINE) as q_session:
         try:
             user_ = q_session.query(User).filter(User.uid == uid_).first()
             output_ = dict(name=user_.name,
